@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educação Financeira Escolar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #0A4A35;
+    --green-main:   #1D9E75;
+    --green-mid:    #2EBD8C;
+    --green-light:  #9FE1CB;
+    --green-pale:   #E1F5EE;
+    --amber:        #EF9F27;
+    --amber-dark:   #BA7517;
+    --amber-pale:   #FEF3DC;
+    --white:        #FAFFF9;
+    --text-dark:    #0E1E18;
+    --text-mid:     #3A6655;
+    --text-muted:   #7AADA0;
+    --radius:       16px;
+    --radius-sm:    10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--green-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Decorative background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, #1D9E75 0%, transparent 65%),
+      radial-gradient(ellipse 60% 40% at 110% 80%, #0F6E56 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at -10% 60%, #085041 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle grid texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(159, 225, 203, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(159, 225, 203, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    min-height: 100vh;
+    padding: 52px 20px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── AVATAR ── */
+  .avatar-ring {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--amber) 0%, var(--green-mid) 100%);
+    margin-bottom: 20px;
+    animation: fadeDown .6s ease both;
+    flex-shrink: 0;
+  }
+
+  .avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px solid var(--green-dark);
+  }
+
+  .avatar-logo {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: var(--green-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .avatar-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .avatar-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 7px;
+    font-weight: 600;
+    color: var(--green-pale);
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  /* ── HEADING ── */
+  .profile-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    animation: fadeDown .6s .1s ease both;
+  }
+
+  .profile-handle {
+    font-size: 13px;
+    color: var(--green-light);
+    font-weight: 400;
+    margin-bottom: 12px;
+    animation: fadeDown .6s .15s ease both;
+  }
+
+  .profile-bio {
+    font-size: 14px;
+    color: rgba(255,255,255,0.72);
+    text-align: center;
+    line-height: 1.65;
+    max-width: 300px;
+    margin-bottom: 36px;
+    animation: fadeDown .6s .2s ease both;
+  }
+
+  /* ── LINKS ── */
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .link-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .18s ease;
+    border-radius: inherit;
+  }
+
+  .link-card:hover { transform: translateY(-2px); }
+  .link-card:hover::before { opacity: 1; }
+  .link-card:active { transform: translateY(0) scale(.98); }
+
+  /* Card 1 — isca gratuita */
+  .card-free {
+    background: rgba(255,255,255,0.95);
+    border-color: rgba(255,255,255,0.2);
+    animation: fadeUp .55s .35s ease both;
+  }
+  .card-free::before {
+    background: rgba(29,158,117,0.06);
+  }
+  .card-free:hover { box-shadow: 0 8px 32px rgba(29,158,117,0.25); border-color: var(--green-mid); }
+
+  .card-icon-free {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Card 2 — produto */
+  .card-product {
+    background: var(--amber);
+    border-color: rgba(255,255,255,0.15);
+    animation: fadeUp .55s .45s ease both;
+  }
+  .card-product::before {
+    background: rgba(255,255,255,0.1);
+  }
+  .card-product:hover { box-shadow: 0 8px 32px rgba(239,159,39,0.4); border-color: rgba(255,255,255,0.35); }
+
+  .card-icon-product {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Card 3 — contato */
+  .card-contact {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(159,225,203,0.2);
+    animation: fadeUp .55s .55s ease both;
+    backdrop-filter: blur(8px);
+  }
+  .card-contact::before {
+    background: rgba(255,255,255,0.05);
+  }
+  .card-contact:hover { box-shadow: 0 8px 32px rgba(159,225,203,0.12); border-color: rgba(159,225,203,0.4); }
+
+  .card-icon-contact {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(159,225,203,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-label {
+    flex: 1;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+
+  .card-sub {
+    font-size: 12px;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  /* Free card colors */
+  .card-free .card-tag { color: var(--green-main); }
+  .card-free .card-title { color: var(--text-dark); }
+  .card-free .card-sub { color: var(--text-mid); }
+
+  /* Product card colors */
+  .card-product .card-tag { color: rgba(65,36,2,0.7); }
+  .card-product .card-title { color: var(--green-dark); }
+  .card-product .card-sub { color: rgba(10,74,53,0.75); }
+
+  /* Contact card colors */
+  .card-contact .card-tag { color: var(--green-light); }
+  .card-contact .card-title { color: #fff; }
+  .card-contact .card-sub { color: rgba(159,225,203,0.8); }
+
+  .card-arrow {
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity .18s, transform .18s;
+  }
+  .link-card:hover .card-arrow { opacity: 1; transform: translateX(3px); }
+
+  /* FREE badge */
+  .free-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--green-main);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    animation: fadeUp .55s .65s ease both;
+  }
+  .divider-line { flex: 1; height: 1px; background: rgba(159,225,203,0.15); }
+  .divider-text { font-size: 11px; color: var(--text-muted); letter-spacing: .5px; }
+
+  /* ── SOCIAL ── */
+  .socials {
+    display: flex;
+    gap: 12px;
+    animation: fadeUp .55s .7s ease both;
+    margin-bottom: 32px;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 40px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(159,225,203,0.18);
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all .18s;
+    backdrop-filter: blur(6px);
+  }
+  .social-btn:hover {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border-color: rgba(159,225,203,0.35);
+    transform: translateY(-1px);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    font-size: 11px;
+    color: rgba(159,225,203,0.35);
+    text-align: center;
+    animation: fadeUp .55s .75s ease both;
+    line-height: 1.6;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── PULSE dot on free card ── */
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green-main);
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(29,158,117,0.6); }
+    70%  { box-shadow: 0 0 0 6px rgba(29,158,117,0); }
+    100% { box-shadow: 0 0 0 0 rgba(29,158,117,0); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- AVATAR -->
+  <div class="avatar-ring">
+    <div class="avatar-inner">
+      <div class="avatar-logo">
+        <svg class="avatar-icon" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="11" stroke="#9FE1CB" stroke-width="1.5"/>
+          <path d="M14 8v2m0 8v2M10 14h2m4 0h2" stroke="#EF9F27" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="3.5" fill="#EF9F27"/>
+          <path d="M8 8l2 2m8 8 2 2M20 8l-2 2M8 20l2-2" stroke="#9FE1CB" stroke-width="1" stroke-linecap="round" opacity=".6"/>
+        </svg>
+        <span class="avatar-text">Educação<br>Financeira</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAME -->
+  <h1 class="profile-name">Educação Financeira<br>Escolar</h1>
+  <p class="profile-handle">@efinanceiraescolar</p>
+  <p class="profile-bio">Planos de aula, atividades e materiais didáticos para professores ensinarem educação financeira com confiança — alinhados à BNCC.</p>
+
+  <!-- LINKS -->
+  <div class="links">
+
+    <!-- 1. ISCA GRATUITA -->
+    <a class="link-card card-free" href="SEU-LINK-DA-ISCA-AQUI" target="_blank">
+      <div class="pulse-dot"></div>
+      <div class="card-icon-free">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2v12M11 14l-4-4m4 4 4-4" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 17h14" stroke="#1D9E75" stroke-width="2" stroke-linecap="round"/>
+          <rect x="4" y="17" width="14" height="3" rx="1.5" fill="#1D9E75" opacity=".25"/>
+        </svg>
+      </div>
+      <div class="card-label">
+        <div class="card-tag">Grátis <span class="free-badge">novo</span></div>
+        <div class="card-title">Kit com 3 Planos de Aula Prontos</div>
+        <div class="card-sub">PDF gratuito — Ed. financeira no ensino médio</div>
+      </div>
+      <div class="card-arrow">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 2. PRODUTO PAGO -->
+    <a class="link-card card-product" href="SEU-LINK-DO-PRODUTO-AQUI" target="_blank">
+      <div class="card-icon-product">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="3" y="5" width="16" height="13" rx="2" stroke="#412402" stroke-width="1.8"/>
+          <path d="M7 5V4a4 4 0 0 1 8 0v1" stroke="#412402" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M8 11h1.5m0 0V9.5a1.5 1.5 0 0 1 3 0V11m0 0H14" stroke="#412402" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="11" cy="11" r="1" fill="#412402"/>
+        </svg>
+      </div>
+      <div class="card-label">
+        <div class="card-tag">Produto principal</div>
+        <div class="card-title">Kit Completo de Ed. Financeira Escolar</div>
+        <div class="card-sub">20+ planos de aula · slides · avaliações · BNCC</div>
+      </div>
+      <div class="card-arrow">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#412402" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 3. CONTATO / WHATSAPP -->
+    <a class="link-card card-contact" href="SEU-LINK-WHATSAPP-AQUI" target="_blank">
+      <div class="card-icon-contact">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M19 11c0 4.418-3.582 8-8 8a7.96 7.96 0 0 1-4.148-1.158L3 19l1.158-3.852A7.96 7.96 0 0 1 3 11c0-4.418 3.582-8 8-8s8 3.582 8 8Z" stroke="#9FE1CB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8.5 10.5a5.5 5.5 0 0 0 3 3l1-1.5a.5.5 0 0 1 .6-.15l2 .75c.25.1.4.35.4.6v1.3c0 .3-.25.55-.55.5C8.15 14.55 7 8.15 7.45 7.55c.05-.3.3-.55.5-.55h1.3c.25 0 .5.15.6.4l.75 2a.5.5 0 0 1-.15.6L8.5 10.5Z" fill="#9FE1CB" opacity=".8"/>
+        </svg>
+      </div>
+      <div class="card-label">
+        <div class="card-tag">Fale comigo</div>
+        <div class="card-title">Conversar pelo WhatsApp</div>
+        <div class="card-sub">Dúvidas sobre materiais e parcerias com escolas</div>
+      </div>
+      <div class="card-arrow">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="rgba(159,225,203,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-text">siga nas redes</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SOCIALS -->
+  <div class="socials">
+    <a class="social-btn" href="https://instagram.com/efinanceiraescolar" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+        <circle cx="18" cy="6" r="1" fill="currentColor"/>
+      </svg>
+      Instagram
+    </a>
+    <a class="social-btn" href="SEU-LINK-YOUTUBE" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M22.5 6.5s-.25-1.75-1-2.5c-.97-1-2.06-1-2.56-1.06C16.5 2.75 12 2.75 12 2.75s-4.5 0-6.94.19c-.5.06-1.59.06-2.56 1.06-.75.75-1 2.5-1 2.5S1.25 8.5 1.25 10.5v1.88c0 2 .25 4 .25 4s.25 1.75 1 2.5c.97 1 2.25.97 2.81 1.06C7 20 12 20 12 20s4.5 0 6.94-.19c.5-.06 1.59-.06 2.56-1.06.75-.75 1-2.5 1-2.5s.25-2 .25-4v-1.87c0-2-.25-4-.25-4Z" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M10 15V9l5 3-5 3Z" fill="currentColor"/>
+      </svg>
+      YouTube
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <p class="footer">
+    Educação Financeira Escolar · Materiais didáticos alinhados à BNCC<br>
+    Feito com propósito para professores que transformam vidas
+  </p>
+
+</div>
+</body>
+</html>
